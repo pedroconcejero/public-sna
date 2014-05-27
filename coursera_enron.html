@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>coursera SNA empirical network analysis</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>coursera SNA empirical network analysis</h1>
+
+<h2>enron employees SNA based on enron e-mail database</h2>
+
+<p>Made by Pedro Concejero for coursera and based on previous work in
+Madrid R users group</p>
+
+<p>Code and dataset available upon request from 
+pedro.concejerocerezo <em>at</em> gmail.com</p>
+
+<p>This is the document to fulfill peer assessment homework, in its version 1, &ldquo;empirical network analysis&rdquo;.</p>
+
+<p>This document is done in RStudio using knitr markdown language and mainly based in igraph R library for SNA.</p>
+
+<p>Explanations on how to use igraph for producing R graph objects are embedded within the explanations of the data nad objectives of the analysis.</p>
+
+<pre><code class="r"># Requesting required libraries required for SNA
+library(igraph)
+# required to produce some plots
+library(gplots)
+</code></pre>
+
+<pre><code>## KernSmooth 2.23 loaded
+## Copyright M. P. Wand 1997-2009
+## 
+## Attaching package: &#39;gplots&#39;
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess
+</code></pre>
+
+<pre><code>## KernSmooth 2.23 loaded
+## Copyright M. P. Wand 1997-2009
+## 
+## Attaching package: &#39;gplots&#39;
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess
+</code></pre>
+
+<pre><code class="r">
+# If you are doing this analysis and have the dataset (ask me if you want
+# it) specify your working directory here
+
+setwd(&quot;D:/2013/enron&quot;)
+
+# enron.RData file contains the working space with several R objects that
+# are explained and described below
+load(&quot;enron.RData&quot;)
+load(&quot;edges_w_message.RData&quot;)
+</code></pre>
+
+<p>The enron skandal revealed in 2001 and was the most expensive bankruptcy produced till that date (many more expensive ones have happened afterwards). An excellent reference on the enron history can be found in wikipedia:</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Enron_scandal">http://en.wikipedia.org/wiki/Enron_scandal</a></p>
+
+<p>After the company&#39;s collapse a large database of over 600,000 emails generated by 158 employees of the Enron Corporation was acquired by the Federal Energy Regulatory Commission during its investigation after the company&#39;s collapse. A copy of the database was subsequently purchased for $10,000 by Andrew McCallum, a computer scientist at the University of Massachusetts Amherst, who released this copy to researchers as the &ldquo;Enron corpus&rdquo;. This analysis is based on this dataset. More about the Enron corpus can be consulted at:</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Enron_Corpus">http://en.wikipedia.org/wiki/Enron_Corpus</a></p>
+
+<p>More in particular, the dataset object of analysis here is based on a mySql implementation of all e-mails between the 158 enron employees and all the rest of the world (except private emails that were deleted previously by the database owners). Since this dataset would be rather difficult to use in an educational setting, the dataset was restricted to the emails <strong>between enron employees</strong>, thus reducing considerably the dataset size and making it easier the interpretation of links and other practical issues.</p>
+
+<p>This dataset was created from a version of the enron corpus by Jitesh Shetty and Jafar Adibi available here:
+<a href="http://www.isi.edu/%7Eadibi/Enron/Enron.htm">http://www.isi.edu/~adibi/Enron/Enron.htm</a></p>
+
+<p>This is the origin of the two dataframes that are required to produce an igraph R graph object: edges (or links, in this case, e-mails), and nodes.</p>
+
+<p>Edges is a dataframe containing the links. For igraph it is essential that two first columns found in this dataframe are node id&#39;s -usually first one is sender and second is receiver-. So we have the following information in the edges dataframe:</p>
+
+<ul>
+<li>sender: e-mail address of sender</li>
+<li>receiver: e-mail address of receiver</li>
+<li>type of e-mail (CC, BCC, TO)</li>
+<li>subject: string with the subject of e-mail</li>
+<li>body: full text of e-mail message</li>
+<li>date</li>
+</ul>
+
+<pre><code class="r"># Number of edges -or e-mails- included in dataset
+nrow(edges.full)
+</code></pre>
+
+<pre><code>## [1] 61673
+</code></pre>
+
+<pre><code class="r">
+# Description of the edges object
+str(edges.full)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    61673 obs. of  6 variables:
+##  $ sender  : chr  &quot;mary.hain@enron.com&quot; &quot;mary.hain@enron.com&quot; &quot;mary.hain@enron.com&quot; &quot;cooper.richey@enron.com&quot; ...
+##  $ receiver: chr  &quot;sean.crandall@enron.com&quot; &quot;mike.swerzbin@enron.com&quot; &quot;robert.badeer@enron.com&quot; &quot;robert.badeer@enron.com&quot; ...
+##  $ type    : chr  &quot;TO&quot; &quot;TO&quot; &quot;TO&quot; &quot;TO&quot; ...
+##  $ subject : chr  &quot;Enron s transmission/power exchange model for discussion&quot; &quot;Enron s transmission/power exchange model for discussion&quot; &quot;Enron s transmission/power exchange model for discussion&quot; &quot;Change to EnData&quot; ...
+##  $ body    : chr  &quot;---------------------- Forwarded by Mary Hain/HOU/ECT on 08/17/2000 02:15 PM ---------------------------James D Steffes@EES08/1&quot;| __truncated__ &quot;---------------------- Forwarded by Mary Hain/HOU/ECT on 08/17/2000 02:15 PM ---------------------------James D Steffes@EES08/1&quot;| __truncated__ &quot;---------------------- Forwarded by Mary Hain/HOU/ECT on 08/17/2000 02:15 PM ---------------------------James D Steffes@EES08/1&quot;| __truncated__ &quot;The Fundamentals Group is moving Database servers and the existing EnData Excel Add-Inneeds to be changed.  If you use Endata, &quot;| __truncated__ ...
+##  $ date    : chr  &quot;2000-08-17 07:11:00&quot; &quot;2000-08-17 07:11:00&quot; &quot;2000-08-17 07:11:00&quot; &quot;2000-08-23 04:39:00&quot; ...
+</code></pre>
+
+<pre><code class="r">
+# Re-formatting date so that we can use dates in R
+
+edges.full$date.R &lt;- as.POSIXct(edges.full$date)
+</code></pre>
+
+<pre><code>
+Note that date is a string, because gephi does not understand the exported R-date format.
+
+The other required object to produce an igraph graph object is the nodes dataframe. This contains all the info about the nodes, in our case, the enron employees who were e-mail sender or receivers.
+
+This dataframe contains e-mail address as node id, the lastName as a useful string for labelling, and her/his status in the company (if this info. was available).
+
+
+```r
+# Number of nodes
+nrow(nodes)
+</code></pre>
+
+<pre><code>## [1] 149
+</code></pre>
+
+<pre><code class="r">
+# Description of the nodes object
+str(nodes)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    149 obs. of  3 variables:
+##  $ Email_id: chr  &quot;marie.heard@enron.com&quot; &quot;mark.e.taylor@enron.com&quot; &quot;lindy.donoho@enron.com&quot; &quot;lisa.gang@enron.com&quot; ...
+##  $ lastName: chr  &quot;Heard&quot; &quot;Taylor&quot; &quot;Donoho&quot; &quot;Gang&quot; ...
+##  $ status  : chr  &quot;N/A&quot; &quot;Employee&quot; &quot;Employee&quot; &quot;N/A&quot; ...
+</code></pre>
+
+<p>The rest of this document explains how to handle and what you can do with the igraph SNA object in 7 steps</p>
+
+<h1>1- CREATING AN IGRAPH GRAPH WITH graph.data.frame</h1>
+
+<p>Just insist on the requirement that:</p>
+
+<ul>
+<li>two first columns of edges object match with node id&#39;s</li>
+<li>nodes object must contain all info. from nodes in edges object</li>
+</ul>
+
+<p>When creating the graph we can choose if the network is directed or not. In this case we choose it as directed.</p>
+
+<pre><code class="r">
+
+# important: for igraph V = vertex . E = edge Note uppercase
+
+# We filtered out the full text for practical reasons, to make it simpler
+
+network.full &lt;- graph.data.frame(edges.full[, c(&quot;sender&quot;, &quot;receiver&quot;, &quot;type&quot;, 
+    &quot;date&quot;, &quot;subject&quot;)], directed = TRUE, vertices = nodes)
+
+class(network.full)
+</code></pre>
+
+<pre><code>## [1] &quot;igraph&quot;
+</code></pre>
+
+<pre><code class="r">summary(network.full)
+</code></pre>
+
+<pre><code>## IGRAPH DN-- 149 61673 -- 
+## attr: name (v/c), lastName (v/c), status (v/c), type (e/c), date
+##   (e/c), subject (e/c)
+</code></pre>
+
+<pre><code class="r">
+# We have created an igraph object and summary will tell us the number of
+# nodes and edges.  igraph automatically sets as node properties all
+# additional columns in node object (name, lastName, status) and as edge
+# properties all additional columns apart from node id&#39;s (type, date, count)
+</code></pre>
+
+<h1>2- USING igraph object and V and E components</h1>
+
+<p>Best documentation can be found at:
+ <a href="http://igraph.sourceforge.net/doc/R/00Index.html">http://igraph.sourceforge.net/doc/R/00Index.html</a>
+ <a href="http://igraph.sourceforge.net/documentation.html">http://igraph.sourceforge.net/documentation.html</a></p>
+
+<p>And also from the unfinished tutorial:
+ <a href="http://igraph.sourceforge.net/igraphbook/">http://igraph.sourceforge.net/igraphbook/</a></p>
+
+<pre><code class="r">
+# You can access to node and edge properties by means of: V(network) y
+# E(network) http://igraph.sourceforge.net/doc/R/iterators.html
+
+V(network.full)[1:10]
+</code></pre>
+
+<pre><code>## Vertex sequence:
+##  [1] &quot;marie.heard@enron.com&quot;   &quot;mark.e.taylor@enron.com&quot;
+##  [3] &quot;lindy.donoho@enron.com&quot;  &quot;lisa.gang@enron.com&quot;    
+##  [5] &quot;jeff.skilling@enron.com&quot; &quot;lynn.blair@enron.com&quot;   
+##  [7] &quot;kim.ward@enron.com&quot;      &quot;kate.symes@enron.com&quot;   
+##  [9] &quot;kay.mann@enron.com&quot;      &quot;keith.holst@enron.com&quot;
+</code></pre>
+
+<pre><code class="r">E(network.full)[1:10]
+</code></pre>
+
+<pre><code>## Edge sequence:
+##                                                            
+## [1]  mary.hain@enron.com       -&gt; sean.crandall@enron.com  
+## [2]  mary.hain@enron.com       -&gt; mike.swerzbin@enron.com  
+## [3]  mary.hain@enron.com       -&gt; robert.badeer@enron.com  
+## [4]  cooper.richey@enron.com   -&gt; robert.badeer@enron.com  
+## [5]  mary.hain@enron.com       -&gt; m..forney@enron.com      
+## [6]  mary.hain@enron.com       -&gt; robert.badeer@enron.com  
+## [7]  mary.hain@enron.com       -&gt; mike.swerzbin@enron.com  
+## [8]  jeff.dasovich@enron.com   -&gt; james.d.steffes@enron.com
+## [9]  jeff.dasovich@enron.com   -&gt; richard.shapiro@enron.com
+## [10] jeff.dasovich@enron.com   -&gt; james.d.steffes@enron.com
+</code></pre>
+
+<pre><code class="r">
+# And also to its properties
+
+table(V(network.full)$status)
+</code></pre>
+
+<pre><code>## 
+##               CEO          Director          Employee   In House Lawyer 
+##                 4                14                41                 1 
+##           Manager Managing Director               N/A         President 
+##                14                 3                32                 4 
+##            Trader    Vice President 
+##                13                23
+</code></pre>
+
+<h1>3- EXPORT the graph for using it with external software (ie gephi)</h1>
+
+<p>Take care with date format: gephi requires it to be a string</p>
+
+<pre><code class="r">
+write.graph(network, file = &quot;network01.graphml&quot;, format = &quot;graphml&quot;)
+
+</code></pre>
+
+<h1>4- INDIVIDUAL SNA METRICS </h1>
+
+<p>With igraph and get.shortest.paths you can obtain the shortest paths between two nodes.</p>
+
+<p>Thanks to explanation at:</p>
+
+<p><a href="http://sigloxxi.fcie.uam.es/informatica/media/Grafos%20con%20R%20e%20Igraph.pdf">http://sigloxxi.fcie.uam.es/informatica/media/Grafos%20con%20R%20e%20Igraph.pdf</a></p>
+
+<pre><code class="r">
+
+get.shortest.paths(from = V(network.full)$lastName == &quot;Pereira&quot;, to = V(network.full)$lastName == 
+    &quot;Horton&quot;, graph = network.full)
+</code></pre>
+
+<pre><code>## [[1]]
+## [1] 138  11 132
+</code></pre>
+
+<pre><code class="r">
+nodes[c(138, 11, 132), ]
+</code></pre>
+
+<pre><code>##                      Email_id lastName    status
+## 138 susan.w.pereira@enron.com  Pereira  Employee
+## 11      kenneth.lay@enron.com      Lay       CEO
+## 132  stanley.horton@enron.com   Horton President
+</code></pre>
+
+<p>Diameter of the graph is the length of the largest distance between nodes</p>
+
+<pre><code class="r">
+diameter(network.full)
+</code></pre>
+
+<pre><code>## [1] 5
+</code></pre>
+
+<pre><code class="r">
+nodes[farthest.nodes(network.full), ]
+</code></pre>
+
+<pre><code>##                   Email_id lastName status
+## 13    joe.quenet@enron.com   Quenet Trader
+## 4      lisa.gang@enron.com     Gang    N/A
+## 5  jeff.skilling@enron.com Skilling    CEO
+</code></pre>
+
+<p>Centrality measures are computed and can be added to the node properties table.
+Basic centrality measure is degree, both in_degree and out_degree (this is a directed graph), and total_degree.</p>
+
+<pre><code class="r">
+nodes$degree_total &lt;- degree(network.full, v = V(network.full), mode = c(&quot;total&quot;))
+nodes$degree_in &lt;- degree(network.full, v = V(network.full), mode = c(&quot;in&quot;))
+nodes$degree_out &lt;- degree(network.full, v = V(network.full), mode = c(&quot;out&quot;))
+</code></pre>
+
+<p>Let&#39;s see who are the top20 for each measure</p>
+
+<pre><code class="r">
+head(nodes[order(nodes$degree_total, decreasing = TRUE), ], n = 20L)
+</code></pre>
+
+<pre><code>##                        Email_id   lastName         status degree_total
+## 42      jeff.dasovich@enron.com   Dasovich       Employee         8610
+## 36    james.d.steffes@enron.com    Steffes Vice President         5720
+## 141        tana.jones@enron.com      Jones            N/A         5190
+## 99       mike.grigsby@enron.com    Grigsby        Manager         4709
+## 125   sara.shackleton@enron.com Shackleton            N/A         4708
+## 116   richard.shapiro@enron.com    Shapiro Vice President         4327
+## 134     steven.j.kean@enron.com       Kean Vice President         4046
+## 2       mark.e.taylor@enron.com     Taylor       Employee         3477
+## 14     louise.kitchen@enron.com    Kitchen      President         3241
+## 55        carol.clair@enron.com      Clair Vice President         3114
+## 17    kimberly.watson@enron.com     Watson            N/A         2091
+## 133   stephanie.panus@enron.com      Panus       Employee         2063
+## 1         marie.heard@enron.com      Heard            N/A         2048
+## 140      susan.bailey@enron.com     Bailey            N/A         1918
+## 16         liz.taylor@enron.com     Taylor            N/A         1890
+## 115 richard.b.sanders@enron.com    Sanders Vice President         1813
+## 139       susan.scott@enron.com      Scott            N/A         1800
+## 98     michelle.lokay@enron.com      Lokay       Employee         1658
+## 135     steven.harris@enron.com     Harris Vice President         1628
+## 93          mary.hain@enron.com       Hain            N/A         1622
+##     degree_in degree_out
+## 42       1499       7111
+## 36       2991       2729
+## 141      1633       3557
+## 99        693       4016
+## 125      2211       2497
+## 116      3276       1051
+## 134      2476       1570
+## 2        2422       1055
+## 14       1123       2118
+## 55        937       2177
+## 17        940       1151
+## 133       869       1194
+## 1        1066        982
+## 140      1486        432
+## 16        129       1761
+## 115      1332        481
+## 139       876        924
+## 98        672        986
+## 135      1353        275
+## 93        461       1161
+</code></pre>
+
+<pre><code class="r">
+head(nodes[order(nodes$degree_in, decreasing = TRUE), ], n = 20L)
+</code></pre>
+
+<pre><code>##                        Email_id   lastName         status degree_total
+## 116   richard.shapiro@enron.com    Shapiro Vice President         4327
+## 36    james.d.steffes@enron.com    Steffes Vice President         5720
+## 134     steven.j.kean@enron.com       Kean Vice President         4046
+## 2       mark.e.taylor@enron.com     Taylor       Employee         3477
+## 125   sara.shackleton@enron.com Shackleton            N/A         4708
+## 141        tana.jones@enron.com      Jones            N/A         5190
+## 42      jeff.dasovich@enron.com   Dasovich       Employee         8610
+## 140      susan.bailey@enron.com     Bailey            N/A         1918
+## 135     steven.harris@enron.com     Harris Vice President         1628
+## 115 richard.b.sanders@enron.com    Sanders Vice President         1813
+## 49     barry.tycholiz@enron.com   Tycholiz Vice President         1494
+## 14     louise.kitchen@enron.com    Kitchen      President         3241
+## 1         marie.heard@enron.com      Heard            N/A         2048
+## 17    kimberly.watson@enron.com     Watson            N/A         2091
+## 55        carol.clair@enron.com      Clair Vice President         3114
+## 139       susan.scott@enron.com      Scott            N/A         1800
+## 133   stephanie.panus@enron.com      Panus       Employee         2063
+## 75    elizabeth.sager@enron.com      Sager       Employee         1135
+## 110   phillip.k.ellen@enron.com      Allen        Manager         1250
+## 96    matthew.lenhart@enron.com    Lenhart       Employee         1309
+##     degree_in degree_out
+## 116      3276       1051
+## 36       2991       2729
+## 134      2476       1570
+## 2        2422       1055
+## 125      2211       2497
+## 141      1633       3557
+## 42       1499       7111
+## 140      1486        432
+## 135      1353        275
+## 115      1332        481
+## 49       1181        313
+## 14       1123       2118
+## 1        1066        982
+## 17        940       1151
+## 55        937       2177
+## 139       876        924
+## 133       869       1194
+## 75        816        319
+## 110       785        465
+## 96        775        534
+</code></pre>
+
+<pre><code class="r">
+head(nodes[order(nodes$degree_out, decreasing = TRUE), ], n = 20L)
+</code></pre>
+
+<pre><code>##                      Email_id   lastName         status degree_total
+## 42    jeff.dasovich@enron.com   Dasovich       Employee         8610
+## 99     mike.grigsby@enron.com    Grigsby        Manager         4709
+## 141      tana.jones@enron.com      Jones            N/A         5190
+## 36  james.d.steffes@enron.com    Steffes Vice President         5720
+## 125 sara.shackleton@enron.com Shackleton            N/A         4708
+## 55      carol.clair@enron.com      Clair Vice President         3114
+## 14   louise.kitchen@enron.com    Kitchen      President         3241
+## 16       liz.taylor@enron.com     Taylor            N/A         1890
+## 134   steven.j.kean@enron.com       Kean Vice President         4046
+## 133 stephanie.panus@enron.com      Panus       Employee         2063
+## 93        mary.hain@enron.com       Hain            N/A         1622
+## 17  kimberly.watson@enron.com     Watson            N/A         2091
+## 123      sally.beck@enron.com       Beck       Employee         1313
+## 2     mark.e.taylor@enron.com     Taylor       Employee         3477
+## 116 richard.shapiro@enron.com    Shapiro Vice President         4327
+## 73      drew.fossum@enron.com     Fossum Vice President         1331
+## 98   michelle.lokay@enron.com      Lokay       Employee         1658
+## 1       marie.heard@enron.com      Heard            N/A         2048
+## 57    chris.germany@enron.com    Germany       Employee         1086
+## 139     susan.scott@enron.com      Scott            N/A         1800
+##     degree_in degree_out
+## 42       1499       7111
+## 99        693       4016
+## 141      1633       3557
+## 36       2991       2729
+## 125      2211       2497
+## 55        937       2177
+## 14       1123       2118
+## 16        129       1761
+## 134      2476       1570
+## 133       869       1194
+## 93        461       1161
+## 17        940       1151
+## 123       252       1061
+## 2        2422       1055
+## 116      3276       1051
+## 73        320       1011
+## 98        672        986
+## 1        1066        982
+## 57        131        955
+## 139       876        924
+</code></pre>
+
+<p>Reach is another measure, also known as neighborhood.size. You must specify a specific order (an integer), meaning the total number of people you can reach with that number of steps. We can observe how this metric is very much linked to actual connectivity.</p>
+
+<pre><code class="r">
+nodes$reach_2_step &lt;- neighborhood.size(network.full, order = 2, nodes = V(network.full), 
+    mode = c(&quot;all&quot;))
+
+
+head(nodes[order(nodes$reach_2_step, decreasing = TRUE), ], n = 30L)
+</code></pre>
+
+<pre><code>##                        Email_id lastName            status degree_total
+## 15     kevin.m.presto@enron.com   Presto    Vice President         1146
+## 16         liz.taylor@enron.com   Taylor               N/A         1890
+## 11        kenneth.lay@enron.com      Lay               CEO          597
+## 26           lavorato@enron.com Lavorato               CEO          377
+## 123        sally.beck@enron.com     Beck          Employee         1313
+## 14     louise.kitchen@enron.com  Kitchen         President         3241
+## 36    james.d.steffes@enron.com  Steffes    Vice President         5720
+## 68   david.w.delainey@enron.com Delainey               CEO         1078
+## 110   phillip.k.ellen@enron.com    Allen           Manager         1250
+## 134     steven.j.kean@enron.com     Kean    Vice President         4046
+## 24          m..forney@enron.com   Forney           Manager          289
+## 49     barry.tycholiz@enron.com Tycholiz    Vice President         1494
+## 88        e..haedicke@enron.com Haedicke Managing Director         1176
+## 117          rick.buy@enron.com      Buy           Manager          439
+## 5       jeff.skilling@enron.com Skilling               CEO          242
+## 63         dana.davis@enron.com    Davis    Vice President          261
+## 85       greg.whalley@enron.com  Whalley         President          833
+## 93          mary.hain@enron.com     Hain               N/A         1622
+## 99       mike.grigsby@enron.com  Grigsby           Manager         4709
+## 116   richard.shapiro@enron.com  Shapiro    Vice President         4327
+## 139       susan.scott@enron.com    Scott               N/A         1800
+## 10        keith.holst@enron.com    Holst          Director          638
+## 25        john.arnold@enron.com   Arnold           Manager          969
+## 75    elizabeth.sager@enron.com    Sager          Employee         1135
+## 80   fletcher.j.sturm@enron.com    Sturm    Vice President          389
+## 141        tana.jones@enron.com    Jones               N/A         5190
+## 148        j.kaminski@enron.com Kaminski           Manager          451
+## 2       mark.e.taylor@enron.com   Taylor          Employee         3477
+## 97      michelle.cash@enron.com     Cash          Employee          245
+## 115 richard.b.sanders@enron.com  Sanders    Vice President         1813
+##     degree_in degree_out reach_2_step
+## 15        459        687          146
+## 16        129       1761          145
+## 11        210        387          144
+## 26          6        371          144
+## 123       252       1061          143
+## 14       1123       2118          142
+## 36       2991       2729          142
+## 68        556        522          142
+## 110       785        465          142
+## 134      2476       1570          142
+## 24        106        183          141
+## 49       1181        313          141
+## 88        695        481          141
+## 117       328        111          141
+## 5         141        101          140
+## 63        244         17          140
+## 85        769         64          140
+## 93        461       1161          140
+## 99        693       4016          140
+## 116      3276       1051          140
+## 139       876        924          140
+## 10        614         24          139
+## 25        495        474          139
+## 75        816        319          139
+## 80        256        133          139
+## 141      1633       3557          139
+## 148       104        347          139
+## 2        2422       1055          138
+## 97        130        115          138
+## 115      1332        481          138
+</code></pre>
+
+<p>There is a lot of info. about enron employees, ie 
+<a href="http://www.inf.ed.ac.uk/teaching/courses/tts/assessed/roles.txt">http://www.inf.ed.ac.uk/teaching/courses/tts/assessed/roles.txt</a></p>
+
+<p>Other interesting measures are clustering coefficient and transitivity
+<a href="http://en.wikipedia.org/wiki/Clustering_coefficient">http://en.wikipedia.org/wiki/Clustering_coefficient</a>
+&ldquo;The clustering coefficient places more weight on the low degree nodes, while the transitivity ratio places more weight on the high degree nodes&rdquo;.</p>
+
+<pre><code class="r">
+nodes$transitivity_ratio &lt;- transitivity(network.full, vids = V(network.full), 
+    type = &quot;local&quot;)
+
+head(nodes[order(nodes$transitivity_ratio, decreasing = FALSE), ], n = 20L)
+</code></pre>
+
+<pre><code>##                        Email_id    lastName         status degree_total
+## 139       susan.scott@enron.com       Scott            N/A         1800
+## 16         liz.taylor@enron.com      Taylor            N/A         1890
+## 26           lavorato@enron.com    Lavorato            CEO          377
+## 123        sally.beck@enron.com        Beck       Employee         1313
+## 57      chris.germany@enron.com     Germany       Employee         1086
+## 11        kenneth.lay@enron.com         Lay            CEO          597
+## 7            kim.ward@enron.com        Ward            N/A         1000
+## 65     daren.j.farmer@enron.com      Farmer        Manager          105
+## 24          m..forney@enron.com      Forney        Manager          289
+## 52      bill.williams@enron.com    Williams            N/A          381
+## 14     louise.kitchen@enron.com     Kitchen      President         3241
+## 22         kam.keiser@enron.com      Keiser       Employee         1081
+## 84       gerald.nemec@enron.com       Nemec            N/A         1294
+## 56     charles.weldon@enron.com      Weldon            N/A           99
+## 93          mary.hain@enron.com        Hain            N/A         1622
+## 42      jeff.dasovich@enron.com    Dasovich       Employee         8610
+## 62           dan.hyvl@enron.com        Hyvl       Employee          531
+## 15     kevin.m.presto@enron.com      Presto Vice President         1146
+## 69  debra.perlingiere@enron.com Perlingiere       Employee          972
+## 99       mike.grigsby@enron.com     Grigsby        Manager         4709
+##     degree_in degree_out reach_2_step transitivity_ratio
+## 139       876        924          140             0.2116
+## 16        129       1761          145             0.2277
+## 26          6        371          144             0.2344
+## 123       252       1061          143             0.2595
+## 57        131        955          130             0.2667
+## 11        210        387          144             0.2956
+## 7         450        550          135             0.3085
+## 65         82         23          123             0.3143
+## 24        106        183          141             0.3233
+## 52        105        276          117             0.3238
+## 14       1123       2118          142             0.3295
+## 22        289        792          126             0.3298
+## 84        593        701          134             0.3485
+## 56         63         36          126             0.3509
+## 93        461       1161          140             0.3655
+## 42       1499       7111          136             0.3684
+## 62        235        296          106             0.3766
+## 15        459        687          146             0.3861
+## 69        284        688          110             0.3875
+## 99        693       4016          140             0.3932
+</code></pre>
+
+<pre><code class="r">
+
+V(network.full)$outdegree &lt;- degree(network.full, mode = &quot;out&quot;)
+V(network.full)$indegree &lt;- degree(network.full, mode = &quot;in&quot;)
+V(network.full)$degree &lt;- degree(network.full, mode = &quot;all&quot;)
+V(network.full)$reach_2_step &lt;- neighborhood.size(network.full, order = 2, nodes = V(network.full), 
+    mode = c(&quot;all&quot;))
+V(network.full)$transitivity_ratio &lt;- transitivity(network.full, vids = V(network.full), 
+    type = &quot;local&quot;)
+</code></pre>
+
+<h1>5- EXTRACTING SUBGRAPHS</h1>
+
+<p>Extracting parts of a graph using igraph is very easy. You just need to know two functions:</p>
+
+<p>induced.subgraph
+subgraph.edges</p>
+
+<p>For instance, to extract subgraphs of the most relevant people when enron came into bankruptcy (from info available at: <a href="http://es.wikipedia.org/wiki/Enron#Ca.C3.ADda_de_la_empresa">http://es.wikipedia.org/wiki/Enron#Ca.C3.ADda_de_la_empresa</a> (CAVEAT: in spanish, click on english language to see it in this language) )</p>
+
+<pre><code class="r">
+edges.full$day &lt;- strftime(edges.full$date.R, &quot;%Y-%m-%d&quot;)
+
+network.august &lt;- subgraph.edges(network.full, which(as.Date(E(network.full)$date) &gt; 
+    &quot;2001-02-12 00:00:00&quot;), delete.vertices = TRUE)
+summary(network.august)
+</code></pre>
+
+<pre><code>## IGRAPH DN-- 146 42126 -- 
+## attr: name (v/c), lastName (v/c), status (v/c), outdegree (v/n),
+##   indegree (v/n), degree (v/n), reach_2_step (v/n),
+##   transitivity_ratio (v/n), type (e/c), date (e/c), subject (e/c)
+</code></pre>
+
+<pre><code class="r">
+write.graph(network.august, file = &quot;network2001onwards.graphml&quot;, format = &quot;graphml&quot;)
+</code></pre>
+
+<p>For instance let&#39;s see messages from president Kenneth Lay</p>
+
+<pre><code class="r">mails.lay &lt;- edges.full[(edges.full$sender == &quot;kenneth.lay@enron.com&quot; &amp; as.Date(edges.full$date.R) &gt; 
+    &quot;2001-07-01 00:00:00&quot;) | (edges.full$receiver == &quot;kenneth.lay@enron.com&quot; &amp; 
+    as.Date(edges.full$date.R) &gt; &quot;2001-07-01 00:00:00&quot;), ]
+mails.lay &lt;- mails.lay[order(as.Date(mails.lay$date.R)), ]
+nrow(mails.lay)
+</code></pre>
+
+<pre><code>## [1] 506
+</code></pre>
+
+<p>See how employees were not aware until last minute of what was going on, in spite of all the stakes they had in the company performance. But of course all depended on the position you had in the company:</p>
+
+<pre><code class="r">mails.lay[rownames(mails.lay) == 3473, ]
+</code></pre>
+
+<pre><code>##                         sender              receiver type
+## 3473 susan.w.pereira@enron.com kenneth.lay@enron.com   TO
+##                                                subject
+## 3473 ENRON - A Study in How So Few Could Screw So Many
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 body
+## 3473 Mr. Lay-After reading the news of your $60,000,000 to $80,000,000 payout, I am disg=usted and appalled all over again.  Unfortunately, that s a daily occurrenc=e.=20I have been employed with Enron since May of 1993, when Enron purchased LRC=.  I was very skeptical of Enron back then and was unsure of my future with= the company.  As time went on, I got more comfortable with the Enron way a=nd learned how to survive and even be a little successful here.  I became a= believer in the things Enron could accomplish, a champion of our hard-nose=d, driven executives (at least some of them).  I bought Enron stock and hel=d on to those valuable options.Over the last 18 months, my coworkers and I have viewed the weekly, sometim=es daily, selling of Enron stock and exercising of options by our top execu=tives (past and present and including you).  We came up with all kinds of r=easons that the executives would be doing this -- they re so overly compens=ated that they have to cash out some every now and then, divorce settlement=s, mistress settlements, buying a new home in Aspen, buying an island in th=e Caribbean, etc., etc. etc....  We never wanted to admit that they knew so=mething we didn t.  Things were great, weren t they?  Jeff Skilling told us= that Enron was going to be the &quot;World s Leading Company.&quot;  He even put the= goofy acronyms on his car license plate.  He told us gas traders in Februa=ry how the stock was going to $126 by the end of the year. Now, being the c=ynic that I am, I didn t believe the $126, although I have to admit I was h=opeful; I figured that if Jeff had the audacity to throw out a number that =high, then it was reasonable to expect the stock to be fairly stable, i.e.,= +/- 20%. =20Needless to say, I didn t sell my stock and didn t exercise any more option=s.  In fact, I bought more stock when it first started going down.  I m afr=aid that there are many more just like me.  I m fortunate in that I have ma=ny working years ahead of me (where, I don t know) to try to build up my sa=vings again.  Many others are not that fortunate.  So many have spent their= entire careers here, helping to build this company up.  They were looking =forward to retiring soon and enjoying the fruits of their labor.  And let m=e remind you that their retirement accounts were in many cases a lot less t=han a month s compensation for you.  Now even that is essentially gone.  Ot=her employees were just ready to cash in some of their options to pay for t=heir children s college tuition.  The stories are too numerous to list, and= the more I think about it, the more sickened I become.It is painfully obvious to me and my coworkers, as well as the rest of the =industry and Houston, that Enron s executives knew that there were skeleton=s in the closet and began cashing in ahead of this freefall.  The employees= and the rest of the world were fed a bunch of half-truths and mystery mumb=o-jumbo.  There should be an accounting for this behavior.  You and your co=horts have ruined so many lives.  Think about that while you re spending yo=ur millions.....Susan PereiraENA Gas Trader
+##                     date              date.R        day
+## 3473 2001-11-13 11:38:01 2001-11-13 11:38:01 2001-11-13
+</code></pre>
+
+<pre><code class="r">
+mails.lay[rownames(mails.lay) == 60469, ]
+</code></pre>
+
+<pre><code>##                         sender              receiver type         subject
+## 60469 stanley.horton@enron.com kenneth.lay@enron.com   TO Difficult times
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   body
+## 60469 I just wanted to let you know that if there is anything I can do to help I am more than willing to do it.  These are difficult times and I am doing alot of floor meetings and table talks with the employees.  They clearly do not understand how we got into this situation and just want some face time with Management.  With the exception of NEPCO our fourth quarter looks good.  I have uncovered alot of issues with NEPCO that I do not think anyone knew existed.  I ll know more Friday after a businnes/budget review session.Please let me know if I can help.Stan
+##                      date              date.R        day
+## 60469 2001-10-31 05:57:26 2001-10-31 05:57:26 2001-10-31
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
+<p>Another way of extracting a subgraph, all nodes who had contact with Kenneth Lay </p>
+
+<pre><code class="r">nodes.with.lay &lt;- unique(c(mails.lay$sender, mails.lay$receiver))
+
+network.kenneth.lay &lt;- graph.data.frame(mails.lay[, c(&quot;sender&quot;, &quot;receiver&quot;, 
+    &quot;type&quot;, &quot;date&quot;, &quot;subject&quot;)], directed = TRUE)
+
+summary(network.kenneth.lay)
+</code></pre>
+
+<pre><code>## IGRAPH DN-- 61 506 -- 
+## attr: name (v/c), type (e/c), date (e/c), subject (e/c)
+</code></pre>
+
+<p>And now see how many people were in Lay&#39;s neighbourhood. This was the CEO so it was extremely easy for him to reach the whole company in only two steps.</p>
+
+<pre><code class="r">neighborhood.size(network.full, 1, V(network.full)$lastName == &quot;Lay&quot;)
+</code></pre>
+
+<pre><code>## [1] 63
+</code></pre>
+
+<pre><code class="r">
+
+neighborhood.size(network.full, 2, V(network.full)$lastName == &quot;Lay&quot;)
+</code></pre>
+
+<pre><code>## [1] 144
+</code></pre>
+
+<h1>6- RECIPROCITY - DYADS - THE SOCIAL GRAPH</h1>
+
+<p>reciprocity function gives measure of reciprocity
+<a href="http://igraph.sourceforge.net/doc-0.5.1/R/reciprocity.html">http://igraph.sourceforge.net/doc-0.5.1/R/reciprocity.html</a></p>
+
+<pre><code class="r">reciprocity(network.full)
+</code></pre>
+
+<pre><code>## [1] 0.4292
+</code></pre>
+
+<p>And you can also obtain the dyads
+<a href="http://igraph.sourceforge.net/doc-0.5.1/R/dyad.census.html">http://igraph.sourceforge.net/doc-0.5.1/R/dyad.census.html</a></p>
+
+<p>This gives back A named numeric vector with three elements:
+ mut   The number of pairs with mutual connections.
+ asym  The number of pairs with non-mutual connections.
+ null   The number of pairs with no connection between them.</p>
+
+<p>Similar thing can be done with triplets (not done here)
+ <a href="http://igraph.sourceforge.net/doc-0.5.1/R/triad.census.html">http://igraph.sourceforge.net/doc-0.5.1/R/triad.census.html</a></p>
+
+<pre><code class="r">dyad.census(network.full)
+</code></pre>
+
+<pre><code>## $mut
+## [1] 13235
+## 
+## $asym
+## [1] 35203
+## 
+## $null
+## [1] -37412
+</code></pre>
+
+<p>Social graph should contain reciprocal pairs. This is, our directed pairs A-&gt;B would require that we also have a relationship B-&gt;A. This way we would have a reciprocal relationship A&lt;-&gt;B.
+This way we convert a <strong>communications graph</strong> into a <strong>social graph</strong></p>
+
+<p>For that purpose we need a preliminary step: computing the weight of the link between two nodes. The simplest measure is the number of communications without distinction by type (to, cc, bcc).</p>
+
+<pre><code class="r"># First we extract unique pairs and we order them
+
+pairs &lt;- as.data.frame(unique(edges.full[c(1, 2)]))
+pairs &lt;- pairs[order(pairs$sender, pairs$receiver), ]
+
+
+edges.ordered &lt;- edges.full[order(edges.full$sender, edges.full$receiver), ]
+
+weight &lt;- aggregate(edges.ordered[, 3], by = list(edges.ordered[, 1], edges.ordered[, 
+    2]), length)
+
+weight &lt;- weight[order(weight$Group.1, weight$Group.2), ]
+
+# Let&#39;s verify with head and tail
+
+head(pairs, n = 10L)
+</code></pre>
+
+<pre><code>##                        sender                    receiver
+## 51982 albert.meyers@enron.com     bill.williams@enron.com
+## 51981 albert.meyers@enron.com      ryan.slinger@enron.com
+## 50480   andrea.ring@enron.com        brad.mckay@enron.com
+## 50482   andrea.ring@enron.com     chris.germany@enron.com
+## 50508   andrea.ring@enron.com      gerald.nemec@enron.com
+## 50483   andrea.ring@enron.com     judy.townsend@enron.com
+## 50484   andrea.ring@enron.com      peter.keavey@enron.com
+## 50467   andrea.ring@enron.com      richard.ring@enron.com
+## 50470   andrea.ring@enron.com  sandra.f.brawner@enron.com
+## 50481   andrea.ring@enron.com scott.hendrickson@enron.com
+</code></pre>
+
+<pre><code class="r">head(weight, n = 10L)
+</code></pre>
+
+<pre><code>##                      Group.1                     Group.2  x
+## 96   albert.meyers@enron.com     bill.williams@enron.com  5
+## 2039 albert.meyers@enron.com      ryan.slinger@enron.com  2
+## 111    andrea.ring@enron.com        brad.mckay@enron.com  1
+## 187    andrea.ring@enron.com     chris.germany@enron.com  1
+## 622    andrea.ring@enron.com      gerald.nemec@enron.com  1
+## 1109   andrea.ring@enron.com     judy.townsend@enron.com  1
+## 1825   andrea.ring@enron.com      peter.keavey@enron.com  1
+## 1928   andrea.ring@enron.com      richard.ring@enron.com 22
+## 2066   andrea.ring@enron.com  sandra.f.brawner@enron.com 16
+## 2101   andrea.ring@enron.com scott.hendrickson@enron.com  1
+</code></pre>
+
+<pre><code class="r">tail(pairs, n = 10L)
+</code></pre>
+
+<pre><code>##                         sender                   receiver
+## 558   tracy.geaccone@enron.com   shelley.corman@enron.com
+## 540   tracy.geaccone@enron.com   stanley.horton@enron.com
+## 312   tracy.geaccone@enron.com    steven.harris@enron.com
+## 743   tracy.geaccone@enron.com        teb.lokey@enron.com
+## 50722  vladi.pimenov@enron.com    dutch.quigley@enron.com
+## 51179  vladi.pimenov@enron.com     geoff.storey@enron.com
+## 51183  vladi.pimenov@enron.com       jane.tholt@enron.com
+## 50723  vladi.pimenov@enron.com    john.griffith@enron.com
+## 51174  vladi.pimenov@enron.com   jonathan.mckay@enron.com
+## 51176  vladi.pimenov@enron.com sandra.f.brawner@enron.com
+</code></pre>
+
+<pre><code class="r">tail(weight, n = 10L)
+</code></pre>
+
+<pre><code>##                       Group.1                    Group.2  x
+## 2178 tracy.geaccone@enron.com   shelley.corman@enron.com  6
+## 2234 tracy.geaccone@enron.com   stanley.horton@enron.com  5
+## 2267 tracy.geaccone@enron.com    steven.harris@enron.com 44
+## 2406 tracy.geaccone@enron.com        teb.lokey@enron.com  6
+## 444   vladi.pimenov@enron.com    dutch.quigley@enron.com  2
+## 621   vladi.pimenov@enron.com     geoff.storey@enron.com  1
+## 835   vladi.pimenov@enron.com       jane.tholt@enron.com  1
+## 1053  vladi.pimenov@enron.com    john.griffith@enron.com  4
+## 1099  vladi.pimenov@enron.com   jonathan.mckay@enron.com  4
+## 2084  vladi.pimenov@enron.com sandra.f.brawner@enron.com  2
+</code></pre>
+
+<pre><code class="r">pairs[seq(236:248), ]
+</code></pre>
+
+<pre><code>##                        sender                    receiver
+## 51982 albert.meyers@enron.com     bill.williams@enron.com
+## 51981 albert.meyers@enron.com      ryan.slinger@enron.com
+## 50480   andrea.ring@enron.com        brad.mckay@enron.com
+## 50482   andrea.ring@enron.com     chris.germany@enron.com
+## 50508   andrea.ring@enron.com      gerald.nemec@enron.com
+## 50483   andrea.ring@enron.com     judy.townsend@enron.com
+## 50484   andrea.ring@enron.com      peter.keavey@enron.com
+## 50467   andrea.ring@enron.com      richard.ring@enron.com
+## 50470   andrea.ring@enron.com  sandra.f.brawner@enron.com
+## 50481   andrea.ring@enron.com scott.hendrickson@enron.com
+## 50468   andrea.ring@enron.com        scott.neal@enron.com
+## 51805   andy.zipper@enron.com    barry.tycholiz@enron.com
+## 16708   andy.zipper@enron.com        brad.mckay@enron.com
+</code></pre>
+
+<pre><code class="r">weight[seq(236:248), ]
+</code></pre>
+
+<pre><code>##                      Group.1                     Group.2  x
+## 96   albert.meyers@enron.com     bill.williams@enron.com  5
+## 2039 albert.meyers@enron.com      ryan.slinger@enron.com  2
+## 111    andrea.ring@enron.com        brad.mckay@enron.com  1
+## 187    andrea.ring@enron.com     chris.germany@enron.com  1
+## 622    andrea.ring@enron.com      gerald.nemec@enron.com  1
+## 1109   andrea.ring@enron.com     judy.townsend@enron.com  1
+## 1825   andrea.ring@enron.com      peter.keavey@enron.com  1
+## 1928   andrea.ring@enron.com      richard.ring@enron.com 22
+## 2066   andrea.ring@enron.com  sandra.f.brawner@enron.com 16
+## 2101   andrea.ring@enron.com scott.hendrickson@enron.com  1
+## 2108   andrea.ring@enron.com        scott.neal@enron.com  1
+## 39     andy.zipper@enron.com    barry.tycholiz@enron.com  3
+## 112    andy.zipper@enron.com        brad.mckay@enron.com  3
+</code></pre>
+
+<pre><code class="r">
+# Mix pairs and weight
+
+pairs$weight &lt;- weight$x
+head(pairs)
+</code></pre>
+
+<pre><code>##                        sender                receiver weight
+## 51982 albert.meyers@enron.com bill.williams@enron.com      5
+## 51981 albert.meyers@enron.com  ryan.slinger@enron.com      2
+## 50480   andrea.ring@enron.com    brad.mckay@enron.com      1
+## 50482   andrea.ring@enron.com chris.germany@enron.com      1
+## 50508   andrea.ring@enron.com  gerald.nemec@enron.com      1
+## 50483   andrea.ring@enron.com judy.townsend@enron.com      1
+</code></pre>
+
+<pre><code class="r">
+# Now we substitute the mails table by a links table and we produce a new
+# graph using this as the edge table
+
+network.sna &lt;- graph.data.frame(pairs, directed = TRUE, vertices = nodes)
+
+summary(network.sna)
+</code></pre>
+
+<pre><code>## IGRAPH DNW- 149 2490 -- 
+## attr: name (v/c), lastName (v/c), status (v/c), degree_total
+##   (v/n), degree_in (v/n), degree_out (v/n), reach_2_step (v/n),
+##   transitivity_ratio (v/n), weight (e/n)
+</code></pre>
+
+<pre><code class="r">
+
+reciprocity(network.sna)
+</code></pre>
+
+<pre><code>## [1] 0.6112
+</code></pre>
+
+<pre><code class="r">dyad.census(network.sna)
+</code></pre>
+
+<pre><code>## $mut
+## [1] 761
+## 
+## $asym
+## [1] 968
+## 
+## $null
+## [1] 9297
+</code></pre>
+
+<p>Now we can impose the requirement that a link must be reciprocal to have a <strong>social relationship</strong></p>
+
+<p>Thanks to Carlos Gil Bellosta for suggesting:
+<a href="http://stackoverflow.com/questions/13006656/igraph-nonreciprocal-edges-after-converting-to-undirected-graph-using-mutual">http://stackoverflow.com/questions/13006656/igraph-nonreciprocal-edges-after-converting-to-undirected-graph-using-mutual</a>
+<a href="http://igraph.sourceforge.net/doc/R/as.directed.html">http://igraph.sourceforge.net/doc/R/as.directed.html</a></p>
+
+<pre><code class="r">network.social &lt;- as.undirected(network.sna, mode = &quot;collapse&quot;, edge.attr.comb = &quot;sum&quot;)
+</code></pre>
+
+<p>Let&#39;s see social network for Mr. Skilling.
+igraph is maybe not the best or easiest piece of software for plotting graph.
+You must learn a few things to really produce quality graphs with igraph.
+See part 7 here.</p>
+
+<pre><code class="r">network.social[5]
+</code></pre>
+
+<pre><code>## Loading required package: Matrix
+## Loading required package: lattice
+</code></pre>
+
+<pre><code>##         marie.heard@enron.com       mark.e.taylor@enron.com 
+##                             0                             3 
+##        lindy.donoho@enron.com           lisa.gang@enron.com 
+##                             0                             0 
+##       jeff.skilling@enron.com          lynn.blair@enron.com 
+##                             0                             0 
+##            kim.ward@enron.com          kate.symes@enron.com 
+##                             0                             0 
+##            kay.mann@enron.com         keith.holst@enron.com 
+##                             0                             0 
+##         kenneth.lay@enron.com         kevin.hyatt@enron.com 
+##                            10                             0 
+##          joe.quenet@enron.com      louise.kitchen@enron.com 
+##                             0                             6 
+##      kevin.m.presto@enron.com          liz.taylor@enron.com 
+##                             1                             8 
+##     kimberly.watson@enron.com    larry.f.campbell@enron.com 
+##                             0                             0 
+##           larry.may@enron.com    joe.stepenovitch@enron.com 
+##                             0                             0 
+##      kevin.ruscitti@enron.com          kam.keiser@enron.com 
+##                             0                             0 
+##           joe.parks@enron.com           m..forney@enron.com 
+##                             0                             0 
+##         john.arnold@enron.com            lavorato@enron.com 
+##                             2                             1 
+##       john.zufferli@enron.com          john.hodge@enron.com 
+##                             0                             0 
+##       john.griffith@enron.com      jonathan.mckay@enron.com 
+##                             0                             0 
+##      juan.hernandez@enron.com       judy.townsend@enron.com 
+##                             0                             0 
+##       jim.schwieger@enron.com    holden.salisbury@enron.com 
+##                             0                             0 
+##    hunter.s.shively@enron.com     james.d.steffes@enron.com 
+##                             0                             1 
+##       james.derrick@enron.com          jane.tholt@enron.com 
+##                             9                             0 
+##         jason.wolfe@enron.com      jason.williams@enron.com 
+##                             0                             0 
+##       jay.reitmeyer@enron.com       jeff.dasovich@enron.com 
+##                             0                             6 
+##           jeff.king@enron.com  jeffrey.a.shankman@enron.com 
+##                             0                            16 
+##       albert.meyers@enron.com         andrea.ring@enron.com 
+##                             0                             0 
+##            h..lewis@enron.com         andy.zipper@enron.com 
+##                             0                             1 
+##      barry.tycholiz@enron.com     benjamin.rogers@enron.com 
+##                             1                             0 
+##           bill.rapp@enron.com       bill.williams@enron.com 
+##                             0                             0 
+##          brad.mckay@enron.com      cara.semperger@enron.com 
+##                             0                             0 
+##         carol.clair@enron.com      charles.weldon@enron.com 
+##                             0                             0 
+##       chris.germany@enron.com       chris.dorland@enron.com 
+##                             0                             0 
+##       chris.stokley@enron.com       cooper.richey@enron.com 
+##                             2                             0 
+##          craig.dean@enron.com            dan.hyvl@enron.com 
+##                             0                             0 
+##          dana.davis@enron.com       danny.mccarty@enron.com 
+##                             0                             5 
+##      daren.j.farmer@enron.com darrell.schoolcraft@enron.com 
+##                             0                             0 
+##            c..giron@enron.com    david.w.delainey@enron.com 
+##                             0                            30 
+##   debra.perlingiere@enron.com      diana.scholtes@enron.com 
+##                             0                             0 
+##        don.baughman@enron.com  doug.gilbert-smith@enron.com 
+##                             0                             0 
+##         drew.fossum@enron.com       dutch.quigley@enron.com 
+##                             4                             0 
+##     elizabeth.sager@enron.com          eric.saibi@enron.com 
+##                             0                             0 
+##           eric.bass@enron.com         eric.linder@enron.com 
+##                             2                             0 
+##    errol.mclaughlin@enron.com    fletcher.j.sturm@enron.com 
+##                             0                             0 
+##         frank.ermis@enron.com        geir.solberg@enron.com 
+##                             0                             0 
+##        geoff.storey@enron.com        gerald.nemec@enron.com 
+##                             0                             0 
+##        greg.whalley@enron.com         harry.arora@enron.com 
+##                             6                             2 
+##          mark.whitt@enron.com         e..haedicke@enron.com 
+##                             3                             4 
+##      mark.mcconnell@enron.com         mark.guzman@enron.com 
+##                             0                             0 
+##       martin.cuilla@enron.com        mary.fischer@enron.com 
+##                             0                             0 
+##           mary.hain@enron.com          matt.smith@enron.com 
+##                             0                             0 
+##         matt.motley@enron.com     matthew.lenhart@enron.com 
+##                             0                             2 
+##       michelle.cash@enron.com      michelle.lokay@enron.com 
+##                             0                             0 
+##        mike.grigsby@enron.com          mike.maggi@enron.com 
+##                             0                             0 
+##         mike.carson@enron.com       mike.swerzbin@enron.com 
+##                             0                             0 
+##    monika.causholli@enron.com     monique.sanchez@enron.com 
+##                             0                             0 
+##      patrice.l.mims@enron.com          paul.lucci@enron.com 
+##                             0                             0 
+##        paul.y barbo@enron.com       paul.d.thomas@enron.com 
+##                             0                             0 
+##        peter.keavey@enron.com     phillip.k.ellen@enron.com 
+##                             0                             4 
+##     phillip.platter@enron.com      phillip.m.love@enron.com 
+##                             0                             0 
+##              l..gay@enron.com        richard.ring@enron.com 
+##                             0                             0 
+##   richard.b.sanders@enron.com     richard.shapiro@enron.com 
+##                             0                            14 
+##            rick.buy@enron.com       robert.badeer@enron.com 
+##                             8                             0 
+##       robert.benson@enron.com      robin.rodrigue@enron.com 
+##                             0                             0 
+##        rod.hayslett@enron.com        ryan.slinger@enron.com 
+##                             3                             0 
+##          sally.beck@enron.com    sandra.f.brawner@enron.com 
+##                            10                             0 
+##     sara.shackleton@enron.com   scott.hendrickson@enron.com 
+##                             0                             0 
+##          scott.neal@enron.com       sean.crandall@enron.com 
+##                             0                             0 
+##      shelley.corman@enron.com      stacey.w.white@enron.com 
+##                             1                             0 
+##       stacy.dickson@enron.com      stanley.horton@enron.com 
+##                             0                            10 
+##     stephanie.panus@enron.com       steven.j.kean@enron.com 
+##                             0                            48 
+##       steven.harris@enron.com       steven.merris@enron.com 
+##                             1                             0 
+##      steven.p.south@enron.com     susan.w.pereira@enron.com 
+##                             0                             0 
+##         susan.scott@enron.com        susan.bailey@enron.com 
+##                             0                             0 
+##          tana.jones@enron.com           teb.lokey@enron.com 
+##                             0                             0 
+##       theresa.staab@enron.com     thomas.a.martin@enron.com 
+##                             0                             0 
+##         tom.donohoe@enron.com     tori.kuykendall@enron.com 
+##                             0                             0 
+##      tracy.geaccone@enron.com          j.kaminski@enron.com 
+##                             0                            18 
+##       vladi.pimenov@enron.com 
+##                             0
+</code></pre>
+
+<pre><code class="r">
+
+plot(network.social, main = &quot;enron social network&quot;, layout = layout.fruchterman.reingold(network.social), 
+    vertex.label = V(network.social)$lastName, vertex.size = (V(network.social)$degree), 
+    edge.curved = T)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-22.png" alt="plot of chunk unnamed-chunk-22"/> </p>
+
+<h1>6- COMPUTING COMMUNITIES</h1>
+
+<p>You should know there are recommendations about availability of algorithms for computing communities depending on the type of your graph (directed vs. non-directed):
+<a href="http://igraph.wikidot.com/community-detection-in-r">http://igraph.wikidot.com/community-detection-in-r</a></p>
+
+<p>A classical algorithm is the one by Vincent D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre, &ldquo;Fast unfolding of communities in large networks&rdquo;, in Journal of Statistical Mechanics: Theory and Experiment 2008 (10), P1000, and is part of gephi in the function multilevel.community:</p>
+
+<p><a href="http://igraph.sourceforge.net/doc/R/multilevel.community.html">http://igraph.sourceforge.net/doc/R/multilevel.community.html</a></p>
+
+<pre><code class="r">communities &lt;- multilevel.community(network.social)
+str(communities)
+</code></pre>
+
+<pre><code>## List of 10
+##  $ membership : num [1:149] 9 9 10 4 8 10 5 4 9 7 ...
+##  $ memberships: num [1:2, 1:149] 16 9 16 9 13 10 4 4 1 8 ...
+##  $ modularity : num [1:2] 0.608 0.64
+##  $ names      : chr [1:149] &quot;marie.heard@enron.com&quot; &quot;mark.e.taylor@enron.com&quot; &quot;lindy.donoho@enron.com&quot; &quot;lisa.gang@enron.com&quot; ...
+##  $ vcount     : int 149
+##  $ algorithm  : chr &quot;multi level&quot;
+##  $ NA:
+</code></pre>
+
+<pre><code>## Error: subÃ­ndice fuera de los lÃ­mites
+</code></pre>
+
+<pre><code class="r">
+comms.df &lt;- data.frame(row.names = seq(1:149))
+comms.df$Email_id &lt;- communities$names
+comms.df$community &lt;- communities$membership
+
+# Adding each node&#39;s community to the nodes table
+str(nodes)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    149 obs. of  8 variables:
+##  $ Email_id          : chr  &quot;marie.heard@enron.com&quot; &quot;mark.e.taylor@enron.com&quot; &quot;lindy.donoho@enron.com&quot; &quot;lisa.gang@enron.com&quot; ...
+##  $ lastName          : chr  &quot;Heard&quot; &quot;Taylor&quot; &quot;Donoho&quot; &quot;Gang&quot; ...
+##  $ status            : chr  &quot;N/A&quot; &quot;Employee&quot; &quot;Employee&quot; &quot;N/A&quot; ...
+##  $ degree_total      : num  2048 3477 1217 80 242 ...
+##  $ degree_in         : num  1066 2422 620 71 141 ...
+##  $ degree_out        : num  982 1055 597 9 101 ...
+##  $ reach_2_step      : num  124 138 96 30 140 91 135 86 132 139 ...
+##  $ transitivity_ratio: num  0.732 0.398 0.81 0.9 0.509 ...
+</code></pre>
+
+<pre><code class="r">
+nodes.def &lt;- merge(nodes, comms.df, by.x = &quot;Email_id&quot;, by.y = &quot;Email_id&quot;)
+
+str(nodes.def)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    149 obs. of  9 variables:
+##  $ Email_id          : chr  &quot;albert.meyers@enron.com&quot; &quot;andrea.ring@enron.com&quot; &quot;andy.zipper@enron.com&quot; &quot;barry.tycholiz@enron.com&quot; ...
+##  $ lastName          : chr  &quot;Meyers&quot; &quot;Ring&quot; &quot;Zipper&quot; &quot;Tycholiz&quot; ...
+##  $ status            : chr  &quot;Employee&quot; &quot;N/A&quot; &quot;Vice President&quot; &quot;Vice President&quot; ...
+##  $ degree_total      : num  38 142 529 1494 96 ...
+##  $ degree_in         : num  31 97 327 1181 67 ...
+##  $ degree_out        : num  7 45 202 313 29 283 276 21 0 325 ...
+##  $ reach_2_step      : num  89 125 136 141 118 74 117 120 1 63 ...
+##  $ transitivity_ratio: num  0.833 0.463 0.511 0.41 0.533 ...
+##  $ community         : num  4 8 8 5 8 10 4 8 3 4 ...
+</code></pre>
+
+<pre><code class="r">head(nodes.def)
+</code></pre>
+
+<pre><code>##                    Email_id lastName         status degree_total degree_in
+## 1   albert.meyers@enron.com   Meyers       Employee           38        31
+## 2     andrea.ring@enron.com     Ring            N/A          142        97
+## 3     andy.zipper@enron.com   Zipper Vice President          529       327
+## 4  barry.tycholiz@enron.com Tycholiz Vice President         1494      1181
+## 5 benjamin.rogers@enron.com   Rogers       Employee           96        67
+## 6       bill.rapp@enron.com     Rapp            N/A          434       151
+##   degree_out reach_2_step transitivity_ratio community
+## 1          7           89             0.8333         4
+## 2         45          125             0.4632         8
+## 3        202          136             0.5111         8
+## 4        313          141             0.4103         5
+## 5         29          118             0.5333         8
+## 6        283           74             0.7333        10
+</code></pre>
+
+<pre><code class="r">plot(table(nodes.def$community))
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-23.png" alt="plot of chunk unnamed-chunk-23"/> </p>
+
+<pre><code class="r">
+
+V(network.social)$community &lt;- communities$membership
+</code></pre>
+
+<h1>7- GRAPH VISUALIZATION WITH IGRAPH</h1>
+
+<p>There are currently three different functions in the igraph package which can draw graph in various ways:</p>
+
+<p>plot.igraph does simple non-interactive 2D plotting to R devices. 
+ Actually it is an implementation of the plot generic function, so you can write plot(graph) 
+ instead of plot.igraph(graph). As it used the standard R devices it supports every output 
+ format for which R has an output device. 
+ The list is quite impressing: PostScript, PDF files, XFig files, SVG files, JPG, PNG and of course 
+ you can plot to the screen as well using the default devices, or the good-looking anti-aliased Cairo device</p>
+
+<p>See plot.igraph for some more information.</p>
+
+<pre><code class="r">plot(network.social)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-24.png" alt="plot of chunk unnamed-chunk-24"/> </p>
+
+<p>First recommendation: plotting a large graph with igraph -and the enron graph is <strong>Not huge</strong>- is useless. Gephi is an excellent alternative for an interactive plot of high quality.</p>
+
+<p>For showing igraph capabilities fro plotting the graph should be small. Let&#39;s extract the &ldquo;CEO&#39;s COMMUNITIES&rdquo;:</p>
+
+<pre><code class="r">str(nodes.def)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    149 obs. of  9 variables:
+##  $ Email_id          : chr  &quot;albert.meyers@enron.com&quot; &quot;andrea.ring@enron.com&quot; &quot;andy.zipper@enron.com&quot; &quot;barry.tycholiz@enron.com&quot; ...
+##  $ lastName          : chr  &quot;Meyers&quot; &quot;Ring&quot; &quot;Zipper&quot; &quot;Tycholiz&quot; ...
+##  $ status            : chr  &quot;Employee&quot; &quot;N/A&quot; &quot;Vice President&quot; &quot;Vice President&quot; ...
+##  $ degree_total      : num  38 142 529 1494 96 ...
+##  $ degree_in         : num  31 97 327 1181 67 ...
+##  $ degree_out        : num  7 45 202 313 29 283 276 21 0 325 ...
+##  $ reach_2_step      : num  89 125 136 141 118 74 117 120 1 63 ...
+##  $ transitivity_ratio: num  0.833 0.463 0.511 0.41 0.533 ...
+##  $ community         : num  4 8 8 5 8 10 4 8 3 4 ...
+</code></pre>
+
+<pre><code class="r">nodes.def[nodes.def$lastName == &quot;Lay&quot;, ]
+</code></pre>
+
+<pre><code>##                 Email_id lastName status degree_total degree_in degree_out
+## 72 kenneth.lay@enron.com      Lay    CEO          597       210        387
+##    reach_2_step transitivity_ratio community
+## 72          144             0.2956         8
+</code></pre>
+
+<pre><code class="r">nodes.def[nodes.def$community == 8, c(2:9)]
+</code></pre>
+
+<pre><code>##          lastName            status degree_total degree_in degree_out
+## 2            Ring               N/A          142        97         45
+## 3          Zipper    Vice President          529       327        202
+## 5          Rogers          Employee           96        67         29
+## 8           Mckay          Employee          147       126         21
+## 12         Weldon               N/A           99        63         36
+## 13        Dorland           Manager          243        80        163
+## 14        Germany          Employee         1086       131        955
+## 15        Stokley               N/A           60        56          4
+## 16         Richey           Manager           97        91          6
+## 19          Davis    Vice President          261       244         17
+## 21         Farmer           Manager          105        82         23
+## 23       Delainey               CEO         1078       556        522
+## 26       Baughman            Trader          346       112        234
+## 27  Gilbert-smith          Employee          350       288         62
+## 29        Quigley            Trader          528       378        150
+## 34          Saibi            Trader          168       160          8
+## 35     McLaughlin          Employee          845       275        570
+## 36          Sturm    Vice President          389       256        133
+## 39         Storey          Director          212       181         31
+## 41        Whalley         President          833       769         64
+## 43          Arora    Vice President          130       115         15
+## 45        Shively    Vice President          605       472        133
+## 46       Kaminski           Manager          451       104        347
+## 54           King           Manager          104        94         10
+## 55       Skilling               CEO          242       141        101
+## 56       Shankman         President          512       296        216
+## 57      Schwieger            Trader          163        66         97
+## 58          Parks               N/A          162       137         25
+## 59         Quenet            Trader           38        32          6
+## 60   Stepenovitch    Vice President          100        81         19
+## 61         Arnold           Manager          969       495        474
+## 62       Griffith           Manager          503       245        258
+## 63          Hodge Managing Director          160       121         39
+## 64       Zufferli    Vice President          213       170         43
+## 65          Mckay          Director          242       154         88
+## 66      Hernandez          Employee          135       108         27
+## 67       Townsend          Employee          415       395         20
+## 72            Lay               CEO          597       210        387
+## 74         Presto    Vice President         1146       459        687
+## 75       Ruscitti            Trader           81        68         13
+## 79       Campbell          Employee          158       111         47
+## 80            May          Director          357       272         85
+## 81       Lavorato               CEO          377         6        371
+## 84         Taylor               N/A         1890       129       1761
+## 85        Kitchen         President         3241      1123       2118
+## 87         Forney           Manager          289       106        183
+## 101        Carson           Manager          133       118         15
+## 103         Maggi          Director          344       331         13
+## 104      Swerzbin            Trader          171       158         13
+## 108        Thomas               N/A          104        69         35
+## 111        Keavey          Employee          143       102         41
+## 116          Ring          Employee           44        37          7
+## 118           Buy           Manager          439       328        111
+## 120        Benson          Director          124       120          4
+## 121      Rodrigue               N/A           61        19         42
+## 124          Beck          Employee         1313       252       1061
+## 125       Brawner          Director          222       170         52
+## 127   Hendrickson               N/A          221       184         37
+## 128          Neal    Vice President          879       429        450
+## 131         White               N/A          278       189         89
+## 145        Martin    Vice President          365       310         55
+## 146       Donohoe          Employee           37        29          8
+## 149       Pimenov               N/A           90        76         14
+##     reach_2_step transitivity_ratio community
+## 2            125             0.4632         8
+## 3            136             0.5111         8
+## 5            118             0.5333         8
+## 8            120             0.5108         8
+## 12           126             0.3509         8
+## 13           130             0.4444         8
+## 14           130             0.2667         8
+## 15           122             0.5091         8
+## 16           125             0.4615         8
+## 19           140             0.5167         8
+## 21           123             0.3143         8
+## 23           142             0.4634         8
+## 26           136             0.5556         8
+## 27           137             0.5524         8
+## 29           127             0.4238         8
+## 34           135             0.6944         8
+## 35           117             0.5619         8
+## 36           139             0.4354         8
+## 39           126             0.4123         8
+## 41           140             0.5947         8
+## 43           131             0.6199         8
+## 45           137             0.4297         8
+## 46           139             0.4824         8
+## 54           130             0.7308         8
+## 55           140             0.5095         8
+## 56           136             0.6527         8
+## 57           129             0.4895         8
+## 58           127             0.4231         8
+## 59           116             0.7121         8
+## 60           102             0.7619         8
+## 61           139             0.4836         8
+## 62           121             0.4420         8
+## 63            97             0.5273         8
+## 64           126             0.5359         8
+## 65           126             0.4375         8
+## 66           126             0.7556         8
+## 67           117             0.6889         8
+## 72           144             0.2956         8
+## 74           146             0.3861         8
+## 75           109             0.5000         8
+## 79           106             0.4889         8
+## 80           131             0.5714         8
+## 81           144             0.2344         8
+## 84           145             0.2277         8
+## 85           142             0.3295         8
+## 87           141             0.3233         8
+## 101          131             0.6813         8
+## 103          133             0.5809         8
+## 104          137             0.4737         8
+## 108          129             0.6410         8
+## 111          121             0.5543         8
+## 116           73             0.5000         8
+## 118          141             0.6367         8
+## 120          132             0.6471         8
+## 121          120             0.5909         8
+## 124          143             0.2595         8
+## 125          125             0.5455         8
+## 127          115             0.6444         8
+## 128          138             0.4010         8
+## 131          132             0.4067         8
+## 145          128             0.5543         8
+## 146          120             0.5556         8
+## 149          121             0.5667         8
+</code></pre>
+
+<pre><code class="r">
+com.ceos &lt;- induced.subgraph(network.social, V(network.social)$community == 
+    8, impl = &quot;auto&quot;)  # Ver ayuda
+
+summary(com.ceos)
+</code></pre>
+
+<pre><code>## IGRAPH UNW- 63 526 -- 
+## attr: name (v/c), lastName (v/c), status (v/c), degree_total
+##   (v/n), degree_in (v/n), degree_out (v/n), reach_2_step (v/n),
+##   transitivity_ratio (v/n), community (v/n), weight (e/n)
+</code></pre>
+
+<pre><code class="r">
+
+g &lt;- com.ceos
+
+plot(g)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-25.png" alt="plot of chunk unnamed-chunk-25"/> </p>
+
+<p>By default (no layout), nodes are projected on random co-ordinates, with automatic labels 
+ starting by 0, correlative numbers afterwards</p>
+
+<h2>How to fix a layout in a plot: fix l</h2>
+
+<pre><code class="r">l &lt;- layout.random(g)
+plot(g, layout = l)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-261.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+# Layout - Either a function or a numeric matrix. It specifies how the
+# vertices will be placed on the plot.  If it is a numeric matrix, then the
+# matrix has to have one line for each vertex, specifying its coordinates.
+# The matrix should have at least two columns, for the x and y coordinates,
+# and it can also have third column, this will be the z coordinate for 3D
+# plots and it is ignored for 2D plots.  If a two column matrix is given for
+# the 3D plotting function rglplot then the third column is assumed to be 1
+# for each vertex.  If layout is a function, this function will be called
+# with the graph as the single parameter to determine the actual
+# coordinates. The function should return a matrix with two or three
+# columns.  For the 2D plots the third column is ignored.
+
+# Let&#39;t try to improve the position of objets in plain
+
+# Let&#39;s put name as the node label
+
+V(g)$label &lt;- V(g)$lastName
+
+plot(g, layout = layout.fruchterman.reingold, vertex.label.font = 1, vertex.label.cex = 0.8, 
+    edge.arrow.size = 0.3, vertex.size = 12, vertex.color = &quot;yellow&quot;)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-262.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+plot(g, layout = layout.kamada.kawai)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-263.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+# color the edges
+
+par(bg = &quot;#000000&quot;, mar = c(1, 1, 1, 1), oma = c(1, 1, 1, 1))
+
+edge_col &lt;- colorpanel(length(table(E(g)$weight)), low = &quot;#2C7BB6&quot;, high = &quot;#FFFFBF&quot;)
+E(g)$color &lt;- edge_col[factor(E(g)$weight)]
+
+
+plot(g, main = &quot;enron&quot;, layout = layout.fruchterman.reingold(g, params = list(niter = 1000, 
+    weights = E(g)$weight)), vertex.label = V(g)$label, vertex.size = log10(as.numeric(V(g)$degree_total)), 
+    vertex.label.font = 1, vertex.label.color = &quot;white&quot;, vertex.label.cex = 0.8, 
+    edge.arrow.size = 0.3, vertex.color = &quot;yellow&quot;, edge.arrow.size = E(g)$weight/150, 
+    edge.width = 1.5 * log10(E(g)$weight), edge.curved = T, edge.color = E(g)$color)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-264.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+plot(g, main = &quot;enron&quot;, layout = layout.kamada.kawai(g, params = list(niter = 1000, 
+    weights = E(g)$weight)), vertex.label = V(g)$label, vertex.size = 12, vertex.label.font = 1, 
+    vertex.label.color = &quot;black&quot;, vertex.label.cex = 0.8, edge.arrow.size = 0.3, 
+    vertex.color = &quot;yellow&quot;, edge.arrow.size = E(g)$weight/150, edge.width = 1.5 * 
+        log10(E(g)$weight), edge.curved = T, edge.color = E(g)$color)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-265.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+# Other layouts
+
+par(bg = &quot;#FFFFFF&quot;, mar = c(1, 1, 1, 1), oma = c(1, 1, 1, 1))
+
+plot(g, main = &quot;enron&quot;, layout = layout.reingold.tilford, vertex.label = V(g)$label)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-266.png" alt="plot of chunk unnamed-chunk-26"/> </p>
+
+<pre><code class="r">
+</code></pre>
+
+<p>Other layouts
+Reingold.tilford produces a hierarchical graph</p>
+
+<pre><code class="r">plot(g, main = &quot;enron&quot;, layout = layout.lgl, vertex.label = V(g)$label)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-27.png" alt="plot of chunk unnamed-chunk-27"/> </p>
+
+<p>layout.circle produce gr?ficos de cuerdas o chord plots</p>
+
+<pre><code class="r">l &lt;- layout.circle(g)
+
+# use colour functions
+par(bg = &quot;#000000&quot;, mar = c(1, 1, 1, 1), oma = c(1, 1, 1, 1))
+
+edge_col &lt;- colorpanel(length(table(E(g)$weight)), low = &quot;#2C7BB6&quot;, high = &quot;#FFFFBF&quot;)
+E(g)$color &lt;- edge_col[factor(E(g)$weight)]
+
+plot(g, layout = l, vertex.label = V(g)$label, vertex.size = 1, vertex.label.color = &quot;white&quot;, 
+    edge.width = 1.5 * log10(E(g)$weight), edge.curved = F, edge.color = E(g)$color)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-28.png" alt="plot of chunk unnamed-chunk-28"/> </p>
+
+<p>glplot is an experimental function to draw graphs in 3D using OpenGL. </p>
+
+<pre><code class="r">rglplot(g, layout = layout.sphere)
+</code></pre>
+
+<pre><code>## Loading required package: rgl
+</code></pre>
+
+<pre><code class="r">
+
+# tkplot does interactive 2D plotting using the tcltk package.  It can only
+# handle graphs of moderate size, a thousend vertices is probably already
+# too many.  Some parameters of the plotted graph can be changed
+# interactively after issuing the tkplot command: the position, color and
+# size of the vertices and the color and width of the edges. See tkplot for
+# details.
+
+tkplot(g)
+</code></pre>
+
+<pre><code>## Loading required package: tcltk
+</code></pre>
+
+<pre><code>## [1] 1
+</code></pre>
+
+</body>
+
+</html>
+
