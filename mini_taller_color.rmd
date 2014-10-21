@@ -49,7 +49,11 @@ DOCUMENTACIÓN DISPONIBLE EN INTERNET Y QUE USAREMOS EN EL TALLER
   
 - (*Mirar esto, es bueno pero incompleto*) http://www.stat.ubc.ca/~jenny/STAT545A/block14_colors.html
 
+- Sobre ceguera al color:
+  - <http://colororacle.org/design.html>
 
+- Regla 6 "Use Color Effectively" de "Ten Simple Rules for Better Figures"
+  - <http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1003833#s7>
 PREPARACIÓN DE ENTORNO R
 ==========================
 
@@ -138,7 +142,13 @@ Nosotros utilizaremos el modelo de color HSV. En este modelo el color se puede r
 
 Siempre podemos pasar de color RGB a color HSV
 
-*CÓMOOOOO????*
+```{r}
+
+rgb2hsv(col2rgb("blue"))
+
+
+```
+
 
 3. PERCEPCIÓN DEL COLOR - COLOR Y PSICOFÍSICA Y PSICOLOGÍA
 =============================================================
@@ -238,3 +248,127 @@ Recomendaciones:
   
 EJEMPLO APLICADO
 ==============================
+
+```{r}
+
+# Cargamos los datos
+# Ojo pongo mi directorio de trabajo, tú pon el tuyo
+
+setwd("C:/Users/pedroc/Desktop/madRid-R/talleres congreso R-hispano")
+
+t <- read.table("tabla.txt", header = T, sep = "\t")
+
+# Mínima modificación para que salgan bien las tablas
+
+rownames(t) <- t[,1]
+
+t <- t[,-1]
+
+t <- as.table(as.matrix(t))
+
+# Por defecto barplot usa escala de grises
+
+barplot(t)
+
+barplot(t, col=palette(),   legend = rownames(t))
+
+# generemos un png para evitar problemas de ventanas RStudio
+
+png(filename = "barplot_1.png",
+    width = 1024,
+    height = 768)
+
+barplot(t, col=palette(),   
+        legend = rownames(t),
+        horiz = T)
+
+dev.off()
+
+```
+
+Probemos RColorBrewer para tener una paleta más bonita.
+Veamos primero todas las paletas que tenemos en RColorBrewer
+
+```{r}
+
+library(RColorBrewer)
+
+display.brewer.all()
+
+```
+
+Seleccionemos una paleta que cumpla unos requisitos:
+- que tenga cuantos más colores diferentes mejor
+- que parta de colores con bajo contraste para permitir el máximo contraste con los objetos más pequeños
+
+```{r}
+
+cols <- brewer.pal(12,"Paired")
+
+pizza(cols)
+
+```
+
+```{r}
+
+png(filename = "barplot_2.png",
+    width = 1024,
+    height = 768,
+    bg = "transparent")
+
+barplot(t, col = cols,   
+        legend = rownames(t),
+        horiz = T,
+        bg = "gray20")
+
+dev.off()
+
+
+```
+
+
+La verdad es que todos estos intentos dan muy pocos frutos porque quizás el mecanismo de visualización no es el más adecuado.
+
+Veamos otras posibilidades, entre ellas el mosaico.
+La función básica es mosaic, pero no conseguimos lo que necesitamos (aunque permite manejar los NAs)
+
+
+```{r}
+
+
+
+mosaic(t,
+       main = "ejemplo mosaico",
+       color = cols, 
+       cex=0.7, 
+       las = 1,
+       bg = "gray20")
+
+
+```
+
+mosaicplot es mucho mejor pero debemos pasar los NA  a 0
+
+```{r}
+
+t2 <- as.matrix(t)
+  
+t2[is.na(t2)] <- 0
+
+t2 <- as.table(t(t2))
+
+png(filename = "mosaic_def.png",
+    width = 1024,
+    height = 768,
+    bg = "transparent")
+
+
+mosaicplot(t2,
+           main = "ejemplo mosaico",
+           color = cols, 
+           cex = 1, 
+           las = 1)
+
+dev.off()
+
+```
