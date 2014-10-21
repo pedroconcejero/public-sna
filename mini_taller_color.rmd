@@ -335,7 +335,7 @@ La función básica es mosaic, pero no conseguimos lo que necesitamos (aunque pe
 
 ```{r}
 
-
+library(vcd)
 
 mosaic(t,
        main = "ejemplo mosaico",
