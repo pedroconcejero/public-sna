@@ -54,6 +54,7 @@ DOCUMENTACIÓN DISPONIBLE EN INTERNET Y QUE USAREMOS EN EL TALLER
 
 - Regla 6 "Use Color Effectively" de "Ten Simple Rules for Better Figures"
   - <http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1003833#s7>
+
 PREPARACIÓN DE ENTORNO R
 ==========================
 
@@ -167,15 +168,24 @@ El color se construye:
 *ILUSIONES DE COLOR*
 
 Recomendaciones:
+
 - Antes de fijar los colores en una visualización: maximizar el contraste -> elegir fondo!
+
 - Color *no puede ser la única clave* (veremos más adelante razones adicionales)
-  - Humanos somos relativamente malos para distinciones finas de color (matiz)
+
+- Humanos somos relativamente malos para distinciones finas de color (matiz)
+
 - No todos los colores se ven igual: recomendaciones sobre el azul en concreto
+
 - Evitar que canales entre en conflicto. Efecto "cromoestereopsis"
-  - <http://en.wikipedia.org/wiki/User:Karam91/Chromostereopsis>
-  - <http://desdag.blogspot.com.es/2012/05/chromostereopsis-design-fails-due-to.html>
-  - aunque ocasional y muy cuidadosamente se puede usar con beneficio
-    <http://www.luminanze.com/writings/chromostereopsis_in_ux_design.html>
+
+- <http://en.wikipedia.org/wiki/User:Karam91/Chromostereopsis>
+
+- <http://desdag.blogspot.com.es/2012/05/chromostereopsis-design-fails-due-to.html>
+
+- aunque ocasional y muy cuidadosamente se puede usar con beneficio
+
+<http://www.luminanze.com/writings/chromostereopsis_in_ux_design.html>
     
 4. COLOR Y MEMORIA Y SEMÁNTICA
 ==============================
