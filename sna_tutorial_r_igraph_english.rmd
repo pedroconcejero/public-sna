@@ -1,10 +1,12 @@
 ---
-output: pdf_document
+output:
+  word_document: default
+  pdf_document: default
 ---
 
 # SNA with R-igraph: a tutorial with enron e-mails dataset
 
-Written by [Pedro Concejero](https://www.linkedin.com/in/pedroconcejero) based on previous work by  [Carlos Ortega](http://www.qualityexcellence.es/) for [Madrid R users group](http://madrid.r-es.org/). This session was hel in Madrid on April 2013, was in spanish and is recorded so you can watch it [here](https://www.intecca.uned.es/portalavip/grabacion.php?ID_Sala=77088&ID_Grabacion=80882&hashData=497fb4164f5080c3a94124de570f6707&amp%3BparamsToCheck=SURfR3JhYmFjaW9uLElEX1NhbGEs)
+Written by [Pedro Concejero](https://www.linkedin.com/in/pedroconcejero) based on previous work by  [Carlos Ortega](http://www.qualityexcellence.es/) for [Madrid R users group](http://madrid.r-es.org/). This session was held in Madrid on April 2013, was in spanish and is recorded so you can watch it [here](https://www.intecca.uned.es/portalavip/grabacion.php?ID_Sala=77088&ID_Grabacion=80882&hashData=497fb4164f5080c3a94124de570f6707&amp%3BparamsToCheck=SURfR3JhYmFjaW9uLElEX1NhbGEs)
 
 This document reviews the original 2013 tutorial material, but with appropiate updates (ie links) on august 2015. All code and datasets are available at my [github](https://github.com/pedroconcejero/public-sna).
 
@@ -46,11 +48,13 @@ First of all we must prepare the R environment, load igraph and other required l
 
 ```{r}
 
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = '/home/pedro/Escritorio/UTAD_2021_22/BAIN 2022/public-sna-master')
+
 library(igraph)
 # required to improve plots with function colorpanel
 library(gplots)
-
-setwd("D:/SNA_data_and_literature/enron")
 
 ```
 
@@ -153,13 +157,8 @@ class(network.full);summary(network.full)
 
 Best documentation can be found at:
 
- [http://igraph.sourceforge.net/doc/R/00Index.html](http://igraph.sourceforge.net/doc/R/00Index.html)
+ [https://igraph.org/python/doc/tutorial/tutorial.html](https://igraph.org/python/doc/tutorial/tutorial.html)
  
- [http://igraph.sourceforge.net/documentation.html](http://igraph.sourceforge.net/documentation.html)
-
-And also from the unfinished tutorial:
-
- [http://igraph.sourceforge.net/igraphbook/](http://igraph.sourceforge.net/igraphbook/)
 
 You can access node and edge properties by means of:
 
@@ -202,10 +201,6 @@ write.graph(network,
 
 With igraph and get.shortest.paths you can obtain the **shortest paths** between two nodes.
 
-Thanks to explanation at:
-
-[http://sigloxxi.fcie.uam.es/informatica/media/Grafos%20con%20R%20e%20Igraph.pdf](http://sigloxxi.fcie.uam.es/informatica/media/Grafos%20con%20R%20e%20Igraph.pdf)
-
 ```{r}
 get.shortest.paths(from = V(network.full)$lastName == "Pereira",
                    to = V(network.full)$lastName == "Horton",
@@ -219,7 +214,7 @@ nodes[c(138,11,132),]
 ```{r}
 
 diameter(network.full)
-nodes[farthest.nodes(network.full),]
+farthest_vertices(network.full)
 
 ```
 
@@ -389,16 +384,14 @@ neighborhood.size(network.full,
 
 ## 6- Reciprocity and Dyads - Creating the social graph 
 
-The [reciprocity](http://igraph.sourceforge.net/doc-0.5.1/R/reciprocity.html) function gives this measure.
+The reciprocity function gives this measure, which is the basis for computing dyads ("couples")
 
 ```{r}
 reciprocity(network.full)
 
 ```
 
-And you can also obtain the [dyads](http://igraph.sourceforge.net/doc-0.5.1/R/dyad.census.html)
-
-This gives back A named numeric vector with three elements:
+And you can also obtain the dyads. This gives back A named numeric vector with three elements:
 
  mut   The number of pairs with mutual connections.
  
@@ -406,7 +399,7 @@ This gives back A named numeric vector with three elements:
  
  null   The number of pairs with no connection between them.
 
-Similar thing can be done with triplets (not done here). See [http://igraph.sourceforge.net/doc-0.5.1/R/triad.census.html](http://igraph.sourceforge.net/doc-0.5.1/R/triad.census.html)
+Similar thing can be done with triplets (not done here). See [https://igraph.org/r/doc/triad_census.html](https://igraph.org/r/doc/triad_census.html)
  
 ```{r}
 dyad.census(network.full)
@@ -478,7 +471,7 @@ Thanks to [Carlos Gil Bellosta](http://www.datanalytics.com/) for suggesting:
 
 [http://stackoverflow.com/questions/13006656/igraph-nonreciprocal-edges-after-converting-to-undirected-graph-using-mutual](http://stackoverflow.com/questions/13006656/igraph-nonreciprocal-edges-after-converting-to-undirected-graph-using-mutual)
 
-[http://igraph.sourceforge.net/doc/R/as.directed.html](http://igraph.sourceforge.net/doc/R/as.directed.html)
+[https://igraph.org/r/html/latest/as.directed.html](https://igraph.org/r/html/latest/as.directed.html)
 
 ```{r}
 network.social <- as.undirected(network.sna, 
@@ -494,7 +487,7 @@ network.social <- as.undirected(network.sna,
 
 You should know there are recommendations about availability of [algorithms for computing communities](http://igraph.wikidot.com/community-detection-in-r) depending on the type of your graph (directed vs. non-directed).
 
-A classical algorithm is the one by Vincent D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre, "Fast unfolding of communities in large networks", in Journal of Statistical Mechanics: Theory and Experiment 2008 (10), P1000, and is part of gephi in the function [multilevel.community](http://igraph.sourceforge.net/doc/R/multilevel.community.html)
+A classical algorithm is the one by Vincent D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, Etienne Lefebvre, "Fast unfolding of communities in large networks", in Journal of Statistical Mechanics: Theory and Experiment 2008 (10), P1000, and is part of gephi in the function [multilevel.community](https://igraph.org/r/html/latest/cluster_louvain.html)
 
 ```{r}
 communities <- multilevel.community(network.social)
@@ -653,57 +646,6 @@ plot(g,
 
 plot(g,
      layout=layout.kamada.kawai)
-
-```
-
-Let's improve these plots
-
-```{r fig.width=12, fig.height=12}
-
-# color the edges
-
-par(bg = "#000000", mar = c(1,1,1,1), oma= c(1,1,1,1))
-
-edge_col <- colorpanel(length(table(E(g)$weight)), 
-                       low = "#2C7BB6", high = "#FFFFBF")  
-E(g)$color <- edge_col[factor(E(g)$weight)]
-
-
-plot(g, 
-     main = "enron", 
-     layout = layout.fruchterman.reingold(g, 
-                                          params= list(niter = 1000, 
-                                                       weights = E(g)$weight)),
-     vertex.label = V(g)$label, 
-     vertex.size = log10(as.numeric(V(g)$degree_total)),
-     vertex.label.font = 1,
-     vertex.label.color = "white",
-     vertex.label.cex = 0.8, 
-     edge.arrow.size = 0.3,
-     vertex.color = "yellow",
-     edge.arrow.size = E(g)$weight/150, 
-     edge.width = 1.5*log10(E(g)$weight), 
-     edge.curved = T, 
-     edge.color = E(g)$color)
-
-plot(g, 
-     main = "enron", 
-     layout = layout.kamada.kawai(g, 
-                                          params= list(niter = 1000, 
-                                                       weights = E(g)$weight)),
-     vertex.label = V(g)$label, 
-     vertex.size = 12,
-     vertex.label.font = 1,
-     vertex.label.color = "black",
-     vertex.label.cex = 0.8, 
-     edge.arrow.size = 0.3,
-     vertex.color = "yellow",
-     edge.arrow.size = E(g)$weight/150, 
-     edge.width = 1.5*log10(E(g)$weight), 
-     edge.curved = T, 
-     edge.color = E(g)$color)
-
-
 
 ```
 
